@@ -11,9 +11,20 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
-});
+Route::get('/', 'HomeController@index')
+    ->name('home');
+
+// Manggil halaman Detail
+Route::get('/detail', 'DetailController@index')
+    ->name('detail');
+
+// Manggil halaman Checkout
+Route::get('/checkout', 'CheckoutController@index')
+->name('checkout');
+
+// Manggil halaman Checkout Success
+Route::get('/checkout/success', 'CheckoutController@success')
+->name('checkout-success');
 
 Route::prefix('admin')
     ->namespace('Admin')
@@ -21,4 +32,3 @@ Route::prefix('admin')
         Route::get('/', 'DashboardController@index')
             ->name('dashboard');
 });
-
