@@ -16,17 +16,31 @@ Route::get('/', 'HomeController@index')
     ->name('home');
 
 // Manggil halaman Detail
-Route::get('/detail', 'DetailController@index')
+Route::get('/detail/{slug}', 'DetailController@index')
     ->name('detail');
 
-// Manggil halaman Checkout
-Route::get('/checkout', 'CheckoutController@index')
-->name('checkout');
+// pemanggilan Halaman Checkout
+Route::post('/checkout/{id}', 'CheckoutController@process')
+    ->name('checkout_process')
+    ->middleware(['auth','verified']);
 
-// Manggil halaman Checkout Success
-Route::get('/checkout/success', 'CheckoutController@success')
-->name('checkout-success');
+Route::get('/checkout/{id}', 'CheckoutController@index')
+    ->name('checkout')
+    ->middleware(['auth','verified']);
 
+Route::post('/checkout/create/{detail_id}', 'CheckoutController@create')
+    ->name('checkout-create')
+    ->middleware(['auth','verified']);
+
+Route::get('/checkout/remove/{detail_id}', 'CheckoutController@remove')
+    ->name('checkout-remove')
+    ->middleware(['auth','verified']);
+
+Route::get('/checkout/confirm/{id}', 'CheckoutController@success')
+    ->name('checkout-success')
+    ->middleware(['auth','verified']);
+
+// Pemanggilan jika yang masuk adalah admin
 Route::prefix('admin')
     ->namespace('Admin')
     ->middleware(['auth', 'admin'])
